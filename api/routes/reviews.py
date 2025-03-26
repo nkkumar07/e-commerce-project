@@ -2,7 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from api.database.connection import get_db
 from api.database.schemas.reviews import ReviewCreate, ReviewResponse
-from api.crud.reviews import create_review, get_reviews_by_user, get_review_by_id, get_reviews_by_product,get_all_reviews
+from api.crud.reviews import (
+    create_review,
+    get_reviews_by_user,
+    get_review_by_id,
+    get_reviews_by_product,
+    get_all_reviews,
+)
 
 router = APIRouter()
 
@@ -10,15 +16,6 @@ router = APIRouter()
 def add_reviews(review: ReviewCreate, db: Session = Depends(get_db)):
     """Adds a review for a product."""
     return create_review(db, review)
-
-@router.get("/all", response_model=list[ReviewResponse])
-def get_all_reviews_route(db: Session = Depends(get_db)):
-    """Fetch all reviews."""
-    reviews = get_all_reviews(db)
-    if not reviews:
-        raise HTTPException(status_code=404, detail="No reviews found")
-    return reviews
-
 
 @router.get("/review/{review_id}", response_model=ReviewResponse)
 def get_review(review_id: int, db: Session = Depends(get_db)):
@@ -42,4 +39,12 @@ def get_reviews_for_user(user_id: int, db: Session = Depends(get_db)):
     reviews = get_reviews_by_user(db, user_id)
     if not reviews:
         raise HTTPException(status_code=404, detail="No reviews found for this user")
+    return reviews
+
+@router.get("/all", response_model=list[ReviewResponse])
+def get_all_reviews_route(db: Session = Depends(get_db)):
+    """Fetch all reviews."""
+    reviews = get_all_reviews(db)
+    if not reviews:
+        raise HTTPException(status_code=404, detail="No reviews found")
     return reviews
