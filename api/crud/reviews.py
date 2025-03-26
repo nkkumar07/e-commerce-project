@@ -30,6 +30,10 @@ def create_review(db: Session, review: ReviewCreate):
 
     return db_review
 
+def get_all_reviews(db: Session):
+    """Fetch all reviews."""
+    return db.query(Review).all()
+
 
 def get_review_by_id(db: Session, review_id: int):
     """Fetch a specific review by its ID."""
