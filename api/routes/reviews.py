@@ -11,6 +11,10 @@ def add_reviews(review: ReviewCreate, db: Session = Depends(get_db)):
     """Adds a review for a product."""
     return create_review(db, review)
 
+def get_all_reviews(db: Session):
+    """Fetch all reviews."""
+    return db.query(Review).all()
+
 @router.get("/review/{review_id}", response_model=ReviewResponse)
 def get_review(review_id: int, db: Session = Depends(get_db)):
     """Fetch a specific review by its ID."""
