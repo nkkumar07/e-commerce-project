@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from api.routes import address, auth, carts, users, products, categories, orders, reviews,analytics
+from fastapi.middleware.cors import CORSMiddleware
+from api.routes import address, auth, carts, users, products, categories, orders, reviews, analytics
 from api.database.connection import engine
 from api.database.base import Base
 
@@ -8,6 +9,15 @@ Base.metadata.create_all(bind=engine)
 
 # Initialize FastAPI app
 app = FastAPI()
+
+# Add CORS Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change "*" to specific domains if needed
+    allow_credentials=True,
+    allow_methods=["*"],  # You can specify ["GET", "POST", "PUT", "DELETE"]
+    allow_headers=["*"],
+)
 
 # Include authentication-related routes (Login, Signup, Token handling, etc.)
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
@@ -33,5 +43,5 @@ app.include_router(orders.router, prefix="/orders", tags=["Orders"])
 # Include review-related routes (Product reviews & ratings)
 app.include_router(reviews.router, prefix="/reviews", tags=["Reviews"])
 
-# Change from "dashboard" to "analytics"
+# Include analytics-related routes
 app.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
