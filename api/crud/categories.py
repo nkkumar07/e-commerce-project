@@ -17,9 +17,7 @@ def create_category(db: Session, category: CategoryCreate):
 def get_categories(db: Session):
     """Retrieve all categories."""
     categories = db.query(Category).all()
-    if not categories:
-        raise HTTPException(status_code=404, detail="No categories found")
-    return categories
+    return categories 
 
 
 # delete_category function
