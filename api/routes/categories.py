@@ -35,7 +35,4 @@ def update_category_by_id(category_id: int, category_data: CategoryUpdate, db: S
     
     return update_category(db, category_id, category_data)
 
-# Get all categories
-@router.get("/all", response_model=list[CategoryResponse])
-def get_all_categories(db: Session = Depends(get_db)):
-    return get_categories(db)
+
