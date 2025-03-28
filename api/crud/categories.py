@@ -45,8 +45,5 @@ def update_category(db: Session, category_id: int, category_data: CategoryUpdate
     return category
 
 
-def get_all_categories(db: Session):
-    """Retrieve all categories."""
-    categories = db.query(Category).all()
-    return [CategoryResponse.model_validate(category) for category in categories]  # Instead of from_orm()
+
 
