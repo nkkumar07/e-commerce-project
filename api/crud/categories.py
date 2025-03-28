@@ -14,6 +14,14 @@ def create_category(db: Session, category: CategoryCreate):
     return db_category
 
 
+def get_categories(db: Session):
+    """Retrieve all categories."""
+    categories = db.query(Category).all()
+    if not categories:
+        raise HTTPException(status_code=404, detail="No categories found")
+    return categories
+
+
 # delete_category function
 def delete_category(db: Session, category_id: int):
     """Delete a category by ID."""
