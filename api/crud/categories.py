@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
 from api.database.models.categories import Category
-from api.database.schemas.categories import CategoryCreate, CategoryUpdate
+from api.database.schemas.categories import CategoryCreate, CategoryUpdate, CategoryResponse
 
 
 def create_category(db: Session, category: CategoryCreate):
@@ -12,12 +12,6 @@ def create_category(db: Session, category: CategoryCreate):
     db.commit()
     db.refresh(db_category)
     return db_category
-
-
-def get_categories(db: Session):
-    """Retrieve all categories."""
-    categories = db.query(Category).all()
-    return categories 
 
 
 # delete_category function
@@ -49,3 +43,10 @@ def update_category(db: Session, category_id: int, category_data: CategoryUpdate
     db.refresh(category)
 
     return category
+
+
+def get_all_categories(db: Session):
+    """Retrieve all categories."""
+    categories = db.query(Category).all()
+    return [CategoryResponse.model_validate(category) for category in categories]  # Instead of from_orm()
+
