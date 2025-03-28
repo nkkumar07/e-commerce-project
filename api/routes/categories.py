@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from api.database.connection import get_db
 from api.database.schemas.categories import CategoryCreate, CategoryUpdate, CategoryResponse
 from api.crud.categories import create_category, delete_category, update_category
+from api.database.models.categories import Category  
 
 router = APIRouter()
 
@@ -24,4 +25,3 @@ def delete_category_by_id(category_id: int, db: Session = Depends(get_db)):
 @router.put("/update/{category_id}", response_model=CategoryResponse)
 def update_category_by_id(category_id: int, category_data: CategoryUpdate, db: Session = Depends(get_db)):
     return update_category(db, category_id, category_data)
-
