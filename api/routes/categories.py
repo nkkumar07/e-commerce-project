@@ -15,6 +15,11 @@ def add_category(category: CategoryCreate, db: Session = Depends(get_db)):
     
     return create_category(db, category)
 
+# Get all categories
+@router.get("/all", response_model=list[CategoryResponse])
+def get_all_categories(db: Session = Depends(get_db)):
+    return get_categories(db)
+
 
 # Delete a category by its ID
 
